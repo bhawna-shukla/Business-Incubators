@@ -24,7 +24,7 @@ const View = () => {
 
   return (
     <div className="col-md-6 mx-auto">
-      <div className="row">
+      <div className="row ">
         <div className="card-shadow m-5 p-3">
           <div data-color-mode="light">
             <MDEditor.Markdown source={productList.content} style={{ whiteSpace: 'pre-wrap' }} />
