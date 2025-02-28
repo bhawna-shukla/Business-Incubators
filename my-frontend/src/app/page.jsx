@@ -122,9 +122,9 @@ const Page = () => {
     </nav>
       
 
-        <header className="flex flex-wrap  md:justify-start md:flex-nowrap z-50 w-full bg-slate-50 border-b  ">
+        {/* <header className="flex flex-wrap  md:justify-start md:flex-nowrap z-50 w-full bg-slate-50 border-b  ">
 
-        </header>
+        </header> */}
         {/* Hero */}
         <div >
           {/* Grid */}
