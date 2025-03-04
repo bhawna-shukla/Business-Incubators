@@ -28,7 +28,7 @@ const Planning = () => {
 
   const displayProduct = () => {
     return product.map((obj) => (
-      <div className="w-full max-w-sm bg-pink-500  border-gray-200 rounded-lg hover:shadow-2xl hover:shadow-gray-400 hover:transform hover:scale-105 transition duration-500 ease-in-out 2s">
+      <div className="w-full max-w-sm bg-pink-200  border-gray-200 rounded-lg hover:shadow-2xl hover:shadow-gray-400 hover:transform hover:scale-105 transition duration-500 ease-in-out 2s">
 
         <img
           className="p-8 rounded-t-lg"
@@ -38,7 +38,7 @@ const Planning = () => {
 
         <div className="px-5 pb-5 ">
 
-          <h5 className="text-3xl font-sabs tracking-tight text-white ">
+          <h5 className="text-3xl font-sabs tracking-tight text-gray-700 ">
             {obj.name}
           </h5>
           <p className="text-md mt-10 mb-10 font-semibold tracking-tight text-gray-90">{obj.description}</p>
