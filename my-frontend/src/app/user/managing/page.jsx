@@ -64,7 +64,7 @@ const Managing = () => {
           {" "}
           {displayProduct()}{" "}
         </div>
-        <section className="bg-white ">
+        {/* <section className="bg-white ">
   <div className="container px-6 py-10 mx-auto">
     <h1 className="text-2xl font-semibold text-center text-gray-800 capitalize lg:text-3xl dark:text-gray-900">
       More websites 
@@ -123,7 +123,7 @@ const Managing = () => {
       </div>
     </div>
   </div>
-</section>
+</section> */}
 
 <section className="bg-slate-200  lg:py-12 lg:flex lg:justify-center">
   <div className="overflow-hidden bg-white dark:bg-sky-800 lg:mx-8 lg:flex lg:max-w-6xl lg:w-full lg:shadow-md lg:rounded-xl">

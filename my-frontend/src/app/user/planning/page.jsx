@@ -7,7 +7,7 @@ import { useParams } from "next/navigation";
 
 const Planning = () => {
   const [product, setProduct] = useState([]);
-  const {category} = useParams()
+  const { category } = useParams()
 
   const fetchProduct = async () => {
     const res = await fetch("http://localhost:5000/service/getbycategory/planning");
@@ -28,48 +28,48 @@ const Planning = () => {
 
   const displayProduct = () => {
     return product.map((obj) => (
-      <div className="w-full max-w-sm bg-white border border-gray-200 rounded-lg shadow dark:bg-gray-800 dark:border-gray-700">
-      
+      <div className="w-full max-w-sm bg-pink-500  border-gray-200 rounded-lg hover:shadow-2xl hover:shadow-gray-400 hover:transform hover:scale-105 transition duration-500 ease-in-out 2s">
+
         <img
           className="p-8 rounded-t-lg"
           src={obj.image}
           alt=""
         />
-     
-      <div className="px-5 pb-5">
-        
-          <h5 className="text-xl font-semibold tracking-tight text-gray-900 dark:text-white">
+
+        <div className="px-5 pb-5 ">
+
+          <h5 className="text-3xl font-sabs tracking-tight text-white ">
             {obj.name}
           </h5>
-          <p className="text-md font-semibold tracking-tight text-gray-90">{obj.description}</p>
-   
-        <Link
+          <p className="text-md mt-10 mb-10 font-semibold tracking-tight text-gray-90">{obj.description}</p>
+
+          <Link
             href={"/view/" + obj._id}
-            className="text-white bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:outline-none focus:ring-blue-300 font-medium rounded-lg text-sm px-5 py-2.5 text-center dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800"
+            className="text-white  bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:outline-none focus:ring-blue-300 font-medium rounded-lg text-sm px-5 py-2.5 text-center dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800"
           >
             View
           </Link>
-        
+
+        </div>
       </div>
-    </div>
-    
+
     ));
   };
 
   return (
     <div className="">
-    <div className="container m-14  ">
-        
+      <div className="container m-14  ">
+
         <div className="grid sm:grid-cols-2 lg:grid-cols-3 gap-10 p-8  ">
           {" "}
           {displayProduct()}{" "}
         </div>
         <section className="bg-white ">
-  <div className="container px-6 py-10 mx-auto">
-   
-   
-  </div>
-</section>
+          <div className="container px-6 py-10 mx-auto">
+
+
+          </div>
+        </section>
 
 
 
@@ -77,11 +77,11 @@ const Planning = () => {
 
 
 
-       
+
       </div>
     </div>
 
-    
+
   );
 };
 
