@@ -152,6 +152,7 @@ const Login = () => {
               />
 
             </div>
+         <a href="/user/forget-password" >forgot password </a>
 
             <div className="mt-6">
               <button className="w-full px-6 py-3 text-sm font-medium tracking-wide text-white capitalize transition-colors duration-300 transform bg-blue-800 rounded-lg hover:bg-blue-500 focus:outline-none focus:ring focus:ring-gray-300 focus:ring-opacity-50">
