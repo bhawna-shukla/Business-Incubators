@@ -2,39 +2,41 @@
 import React, { useEffect, useState } from "react";
 import toast from "react-hot-toast";
 import axios from "axios";
-import Link from 'next/link'
+import Link from "next/link";
 
 const ManageUser = () => {
-    const fetchUserList = () => {
-        axios
-            .get("http://localhost:5000/user/getall")
-            .then((res) => {
-                console.log(res.status);
-                console.log(res.data);
-                setUserList(res.data);
-            })
-            .catch((err) => {
-                console.log(err);
-                toast.error("Failed to fetch User List");
-            });
-    };
-    useEffect(() => {
+  const fetchUserList = () => {
+    axios
+      .get("http://localhost:5000/user/getall")
+      .then((res) => {
+        console.log(res.status);
+        console.log(res.data);
+        setUserList(res.data);
+      })
+      .catch((err) => {
+        console.log(err);
+        toast.error("Failed to fetch User List");
+      });
+  };
+  useEffect(() => {
+    fetchUserList();
+  }, []);
+
+  const deleteUser = (id) => {
+    axios
+      .delete("http://localhost:5000/user/delete/" + id)
+      .then((result) => {
+        toast.success("User Deleted Successfully");
         fetchUserList();
-    }, []);
+      })
+      .catch((err) => {
+        console.log(err);
+        toast.error("Failed to Delete User");
+      });
+  };
 
-    const deleteUser = (id) => {
-        axios.delete('http://localhost:5000/user/delete/' + id)
-            .then((result) => {
-                toast.success("User Deleted Successfully");
-                fetchUserList();
-            })
-            .catch((err) => {
-                console.log(err);
-                toast.error("Failed to Delete User");
-            });
-    };
+  const [userList, setUserList] = useState([]);
 
-    const [userList, setUserList] = useState([]);
 
     return (
         <div className=" mr-12 lg:max-w-[80%] mx-auto py-10">
@@ -67,7 +69,7 @@ const ManageUser = () => {
                                         </button>
                                     </td>
                                     <td className="p-2 border via-violet-300">
-                                        <Link href={'/updateuser/' + user._id} className="bg-blue-500 text-white px-4 py-2 rounded-lg">
+                                        <Link href={'/admin/updateUser/' + user._id} className="bg-blue-500 text-white px-4 py-2 rounded-lg">
                                             Update
                                         </Link>
                                     </td>

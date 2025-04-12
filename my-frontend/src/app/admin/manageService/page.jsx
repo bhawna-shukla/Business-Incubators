@@ -1,145 +1,97 @@
-import { Formik } from "formik";
+"use client";
 import React, { useEffect, useState } from "react";
-import { useNavigate, useParams } from "react-router-dom";
-import Swal from "sweetalert2";
-import MDEditor from '@uiw/react-md-editor';
+import toast from "react-hot-toast";
+import axios from "axios";
+import Link from "next/link";
 
-const ManageService = () => {
-  const { id } = useParams();
-  const [userData, setUserData] = useState(null);
-  const [markdownContent, setMarkdownContent] = useState("**Add Services**");
-  const [selFile, setSelFile] = useState("");
-
-  const navigate = useNavigate();
-
-  const fetchUserData = async () => {
-    const res = await fetch("http://localhost:3000/services/getbyid/" + id);
-    const data = await res.json();
-
-    console.log(data);
-    setUserData(data);
-    setMarkdownContent(data.content);
+const ManageUser = () => {
+  const fetchUserList = () => {
+    axios
+      .get("http://localhost:5000/services/getall")
+      .then((res) => {
+        console.log(res.status);
+        console.log(res.data);
+        setUserList(res.data);
+      })
+      .catch((err) => {
+        console.log(err);
+        toast.error("Failed to fetch User List");
+      });
   };
-
   useEffect(() => {
-    fetchUserData();
+    fetchUserList();
   }, []);
 
-  const submitForm = async (values) => {
-    console.log(values);
-    values.simage = selFile;
-    const data = typeof values === 'string' ? { content: markdownContent } : { ...values, content: markdownContent };
-    const res = await fetch('http://localhost:3000/services/update/' + id, {
-      method: 'PUT',
-      body: JSON.stringify(data),
-      headers: {
-        'Content-Type': 'application/json'
-      }
-    });
-
-    console.log(res.status);
-
-    if (res.status === 200) {
-      Swal.fire({
-        icon: 'success',
-        title: 'Service Updated'
+  const deleteUser = (id) => {
+    axios
+      .delete("http://localhost:5000/services/delete/" + id)
+      .then((result) => {
+        toast.success("User Deleted Successfully");
+        fetchUserList();
+      })
+      .catch((err) => {
+        console.log(err);
+        toast.error("Failed to Delete User");
       });
-      navigate('/services');
-    }
   };
 
-  const uploadFile = (e) => {
-    const file = e.target.files[0];
-    if (!file) return;
-    setSelFile(file.name);
-    const fd = new FormData();
-    fd.append("myfile", file);
-    fetch("http://localhost:3000/util/uploadfile", {
-      method: "POST",
-      body: fd,
-    }).then((res) => {
-      if (res.status === 200) {
-        console.log("file uploaded");
-      }
-    });
-  };
+  const [userList, setUserList] = useState([]);
 
   return (
-    <div>
-      <div className="col-md-3 mx-auto pt-5">
-        <div className="card">
-          <div className="card-body">
-            <h3 className="text-center my-5">Update Service</h3>
-            {userData !== null ? (
-              <Formik initialValues={userData} onSubmit={submitForm}>
+    <div className="bg-gray-200 rounded-xl font-[sans-serif] ">
+      <div className="lg:max-w-[95%] mx-auto ">
+        <div className="border rounded-xl shadow-lg p-8 bg-cyan-200  ">
+          <h1 className="text-center font-bold text-4xl font-[sans-serif]">
+            Manage Libraries
+          </h1>
+          {/* <hr/> */}
 
-                {(addServiceForm) => (
+          <table className="w-full mt-4 mb-2 font-sans rounded-lg">
+            <thead className="bg-rose-300 rounded-xl text-white font-[sans-serif]">
+              <tr>
+                <th className="p-2 border border-white">ID</th>
+                <th className="p-2 border border-white">NAME</th>
+                {/* <th className="p-2 border border-white">CATEGORY</th> */}
+                <th className="p-2 border border-white">DESCRIPTION</th>
+                <th colSpan={2}>ACTIONS</th>
+              </tr>
+            </thead>
 
-                  <form onSubmit={addServiceForm.handleSubmit}>
-                    <label>Service Name</label>
-
-                    <span
-                      style={{ color: "red", fontSize: 10, marginLeft: 10 }}
+            <tbody className="bg-fuchsia-200 font-[sans-serif] text-sm">
+              {userList.map((user) => {
+                return (
+                  <tr key={user._id}>
+                    <td className="p-2 border via-violet-300">{user._id} </td>
+                    <td className="p-2 border via-violet-300">{user.name} </td>
+                    {/* <td className="p-2 border via-violet-300">{user.category} </td> */}
+                    <td className="p-2 border via-violet-300">
+                      {user.description}
+                    </td>
+                    <td
+                      onClick={() => deleteUser(user._id)}
+                      className="p-2 border via-violet-300"
                     >
-                      {addServiceForm.errors.sname}
-                    </span>
-                    <input
-                      id="sname"
-                      onChange={addServiceForm.handleChange}
-                      value={addServiceForm.values.sname}
-                      type="text"
-                      className="form-control mb-4"
-                    />
-
-                    <label>Service Category</label>
-                    <span
-                      style={{ color: "red", fontSize: 10, marginLeft: 10 }}
-                    >
-                      {addServiceForm.errors.scategory}
-                    </span>
-                    <input
-                      id="scategory"
-                      onChange={addServiceForm.handleChange}
-                      value={addServiceForm.values.scategory}
-                      type="text"
-                      className="form-control mb-4"
-                    />
-
-                    <label>Service Description</label>
-                    <input
-                      id="sdescription"
-                      onChange={addServiceForm.handleChange}
-                      value={addServiceForm.values.sdescription}
-                      type="text"
-                      className="form-control mb-4"
-                    />
-
-                    <label>Upload Image</label>
-                    <input
-                      type="file"
-                      id="simage"
-                      className="form-control mb-4"
-                      placeholder="Upload Image"
-                      onChange={uploadFile} />
-
-                    <div className='mt-5'>
-                      <MDEditor value={markdownContent} onChange={(v) => setMarkdownContent(v)} />
-                    </div>
-
-                    <button type="submit" className="btn btn-primary w-100">
-                      Submit
-                    </button>
-                  </form>
-                )}
-              </Formik>
-            ) : (
-              <h1 className="text-center my-5">Loading ... </h1>
-            )}
-          </div>
+                      <button className="bg-red-500 text-white px-4 py-2 rounded-lg">
+                        Delete
+                      </button>
+                    </td>
+                    <td className="p-2 border via-violet-300">
+                      <Link
+                        href={`/admin/updateServices/` + user._id}
+                        className="bg-blue-500 text-white px-4 py-2 rounded-lg"
+                      >
+                        Update
+                      </Link>
+                    </td>
+                  </tr>
+                );
+              })}
+            </tbody>
+          </table>
         </div>
       </div>
     </div>
   );
 };
 
-export default ManageService;
+export default ManageUser;
